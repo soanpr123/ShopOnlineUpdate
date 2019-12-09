@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +24,11 @@ import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.shoponline.Retrofit2.APIUtils;
+import com.example.shoponline.Retrofit2.DataClient;
 import com.example.shoponline.interfac.ClickListener;
 import com.example.shoponline.R;
 import com.example.shoponline.adapter.itemDetailAdapter;
@@ -49,6 +51,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class ChitietlDanhmucFragment extends Fragment implements ClickListener, LoginView {
     private itemDetailAdapter itemDetailAdapter;
@@ -64,9 +70,9 @@ public class ChitietlDanhmucFragment extends Fragment implements ClickListener, 
     String Hinhanhsp = "";
     String motasp = "";
     int IDSP = 0;
-    int VisibleItem, FritItem, TotalItem;
+
     GridLayoutManager manager;
-    Boolean isScrolling = false;
+
     int currentItems, totalItems, scrollOutItems;
     private ProgressBar progressBar;
     boolean limitData = false;
@@ -76,8 +82,12 @@ public class ChitietlDanhmucFragment extends Fragment implements ClickListener, 
     String emails = "";
     String locations = "";
     int soluong = 0;
+    private boolean limitdt = false;
+    private mHander mHander;
     FloatingActionButton floatingActionButton;
+    private boolean isloading = false;
 
+View view2;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -88,7 +98,7 @@ public class ChitietlDanhmucFragment extends Fragment implements ClickListener, 
         dataPresenter = new DataPresenter(this, getContext());
         progressBar = view.findViewById(R.id.progress);
         mdArrayList = new ArrayList<>();
-
+        mHander = new mHander();
         itemDetailAdapter = new itemDetailAdapter(mdArrayList, getContext(), this);
         manager = new GridLayoutManager(getContext(), 2);
         recyclerView.setHasFixedSize(true);
@@ -104,17 +114,8 @@ public class ChitietlDanhmucFragment extends Fragment implements ClickListener, 
         emails = bundle.getString("emails");
         locations = bundle.getString("locations");
         Toast.makeText(getContext(), "id : " + idd + "\n" + "name" + usernames + "\n" + "phone" + phones + "\n" + "email" + emails + "\n" + "vị trí " + locations, Toast.LENGTH_LONG).show();
-        dataPresenter.getTheodm(idd, page);
-        //        dataPresenter.getTheodm(idd);
-        ////       if(CheckConection.haveNetworkConnection(getContext())){
-////           LoadmorData();
-//           Getdata(page);
-//
-//       }else {
-//           CheckConection.Show_toast(getContext(),"Kiểm tra kết nối internet");
-//       }
-//        Getdata(1);
-
+        GetData(idd, page);
+        Loadmore();
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,9 +136,68 @@ public class ChitietlDanhmucFragment extends Fragment implements ClickListener, 
 
     }
 
+    private void Loadmore() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    isloading = false;
+                }
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                currentItems = manager.getChildCount();
+                totalItems = manager.getItemCount();
+                scrollOutItems = manager.findFirstVisibleItemPosition();
+                if (limitData == false && isloading == false && (currentItems + scrollOutItems == totalItems)) {
+                    isloading = true;
+                    ThrarDAta thrarDAta = new ThrarDAta();
+                    thrarDAta.start();
+                }
+            }
+        });
+
+    }
+
+    public class mHander extends Handler {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            switch (msg.what) {
+                case 0:
+
+                    progressBar.setVisibility(View.VISIBLE);
+                    break;
+                case 1:
+
+                    dataPresenter.getTheodm(idd, ++page);
+                    isloading = false;
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    }
+
+    public class ThrarDAta extends Thread {
+        @Override
+        public void run() {
+            mHander.sendEmptyMessage(0);
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            Message message = mHander.obtainMessage(1);
+            mHander.sendMessage(message);
+            super.run();
+        }
+    }
 //    private void LoadmorData() {
 
-//     recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+    //     recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 //         @Override
 //         public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
 //             super.onScrollStateChanged(recyclerView, newState);
@@ -164,6 +224,32 @@ public class ChitietlDanhmucFragment extends Fragment implements ClickListener, 
 //     });
 //     Getdata(page);
 //    }
+    private void GetData(int idsp, int page) {
+        DataClient dataClient = APIUtils.dataClient();
+        Call<List<SptheoDM>> listCall = dataClient.getSpDM(idsp, page);
+        listCall.enqueue(new Callback<List<SptheoDM>>() {
+            @Override
+            public void onResponse(Call<List<SptheoDM>> call, Response<List<SptheoDM>> response) {
+                Log.e("B", response.code() + "");
+                if (response != null && response.toString().length() > 0) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                    mdArrayList.addAll(response.body());
+                    itemDetailAdapter.notifyDataSetChanged();
+                } else {
+                    limitData = true;
+                    progressBar.setVisibility(View.VISIBLE);
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<List<SptheoDM>> call, Throwable t) {
+
+            }
+        });
+    }
+
 
     @Override
     public void onClick(int position) {
@@ -202,56 +288,6 @@ public class ChitietlDanhmucFragment extends Fragment implements ClickListener, 
 
     }
 
-
-//    private void Getdata(int Page) {
-//        progressBar.setVisibility(View.VISIBLE);
-//        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-//        String duongdan = Sever.GETSANPHAMS + String.valueOf(page);
-//        StringRequest stringRequest = new StringRequest(Request.Method.POST, duongdan, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//                if (response != null && response.length() > 0) {
-//                    progressBar.setVisibility(View.GONE);
-//                    try {
-//                        JSONArray array = new JSONArray(response);
-//                        for (int i = 0; i < array.length(); i++) {
-//                            JSONObject object = array.getJSONObject(i);
-//                            idsp = object.getInt("id");
-//                            tensp = object.getString("tensanpham");
-//                            Giasp = object.getInt("giasp");
-//                            Hinhanhsp = object.getString("hinhanh");
-//                            motasp = object.getString("motasp");
-//                            IDSP = object.getInt("idsanpham");
-//                            soluong = object.getInt("soluong");
-//                            mdArrayList.add(new SanphamMD(idsp, tensp, Giasp, motasp, Hinhanhsp, IDSP, soluong));
-//                            itemDetailAdapter.notifyDataSetChanged();
-//                        }
-//
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                } else {
-//                    limitData = true;
-//                    progressBar.setVisibility(View.GONE);
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//
-//            }
-//        }) {
-//
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                HashMap<String, String> param = new HashMap<String, String>();
-//                param.put("idsanpham", String.valueOf(idd));
-//                return param;
-//            }
-//        };
-//        requestQueue.add(stringRequest);
-//
-//    }
 
     @Override
     public void LoginFail() {

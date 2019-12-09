@@ -19,6 +19,7 @@ import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class itemDetailAdapter extends RecyclerView.Adapter<itemDetailAdapter.ViewHoldel> {
     ArrayList<SptheoDM> mangsp;
@@ -81,5 +82,11 @@ public class itemDetailAdapter extends RecyclerView.Adapter<itemDetailAdapter.Vi
             cardView = itemView.findViewById(R.id.Cv_spnew);
             soluong=itemView.findViewById(R.id.txt_viewsl);
         }
+    }
+    public void adData(List<SptheoDM> sptheoDMS){
+        for (SptheoDM sptheoDM : sptheoDMS){
+            mangsp.add(sptheoDM);
+        }
+notifyDataSetChanged();
     }
 }

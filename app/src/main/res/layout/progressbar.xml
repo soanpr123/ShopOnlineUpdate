@@ -6,18 +6,10 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <com.agrawalsuneet.dotsloader.loaders.LazyLoader
+    <ProgressBar
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
-        android:layout_height="26dp"
-        android:layout_margin="0dp"
-        android:layout_marginTop="0dp"
-        app:lazyloader_animDur="800"
-        app:lazyloader_dotsDist="10dp"
-        app:lazyloader_dotsRadius="13dp"
-        app:lazyloader_firstDelayDur="150"
-        app:lazyloader_firstDotColor="@color/red"
-        app:lazyloader_interpolator="@android:anim/decelerate_interpolator"
-        app:lazyloader_secondDelayDur="300"
-        app:lazyloader_secondDotColor="@color/green"
-        app:lazyloader_thirdDotColor="@color/yellow" />
+        android:id="@+id/progress"
+        android:layout_height="40dp" />
 </LinearLayout>
