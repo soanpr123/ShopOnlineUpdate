@@ -27,14 +27,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.shoponline.CustomToast;
-import com.example.shoponline.modelgson.LoaiSp;
-import com.example.shoponline.modelgson.SanphamNew;
 import com.example.shoponline.R;
 import com.example.shoponline.Utils;
-import com.example.shoponline.modelgson.SptheoDM;
-import com.example.shoponline.presenter.LoginPresenter;
 import com.example.shoponline.interfac.LoginView;
 import com.example.shoponline.model.infoUserMD;
+import com.example.shoponline.modelgson.LoaiSp;
+import com.example.shoponline.modelgson.SanphamNew;
+import com.example.shoponline.modelgson.SptheoDM;
+import com.example.shoponline.presenter.LoginPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,14 +76,14 @@ public class Login_Fragment extends Fragment implements OnClickListener, LoginVi
     private void initViews() {
         fragmentManager = getActivity().getSupportFragmentManager();
 
-        emailid = (EditText) view.findViewById(R.id.login_emailid);
-        password = (EditText) view.findViewById(R.id.login_password);
-        loginButton = (Button) view.findViewById(R.id.loginBtn);
-        forgotPassword = (TextView) view.findViewById(R.id.forgot_password);
-        signUp = (TextView) view.findViewById(R.id.createAccount);
-        show_hide_password = (CheckBox) view
+        emailid = view.findViewById(R.id.login_emailid);
+        password = view.findViewById(R.id.login_password);
+        loginButton = view.findViewById(R.id.loginBtn);
+        forgotPassword = view.findViewById(R.id.forgot_password);
+        signUp = view.findViewById(R.id.createAccount);
+        show_hide_password = view
                 .findViewById(R.id.show_hide_password);
-        loginLayout = (LinearLayout) view.findViewById(R.id.login_layout);
+        loginLayout = view.findViewById(R.id.login_layout);
 
         // Load ShakeAnimation
         shakeAnimation = AnimationUtils.loadAnimation(getActivity(),

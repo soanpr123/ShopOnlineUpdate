@@ -11,9 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.shoponline.interfac.ClickListener;
 import com.example.shoponline.R;
-import com.example.shoponline.model.SanphamMD;
+import com.example.shoponline.interfac.ClickListener;
 import com.example.shoponline.modelgson.SptheoDM;
 import com.squareup.picasso.Picasso;
 
@@ -47,9 +46,9 @@ public class itemDetailAdapter extends RecyclerView.Adapter<itemDetailAdapter.Vi
 
         holder.Giasp.setText("Giá : " + decimalFormat.format(sanphamMD.getGiasp()) + "VND");
 
-        if (sanphamMD.getSoluong()<=0){
+        if (sanphamMD.getSoluong() <= 0) {
             holder.soluong.setText("hết hàng");
-        }else {
+        } else {
             holder.soluong.setText("Còn hàng");
         }
         Picasso.with(context).load(sanphamMD.getHinhanh())
@@ -69,9 +68,16 @@ public class itemDetailAdapter extends RecyclerView.Adapter<itemDetailAdapter.Vi
         return mangsp.size();
     }
 
+    public void adData(List<SptheoDM> sptheoDMS) {
+        for (SptheoDM sptheoDM : sptheoDMS) {
+            mangsp.add(sptheoDM);
+        }
+        notifyDataSetChanged();
+    }
+
     public class ViewHoldel extends RecyclerView.ViewHolder {
         ImageView imgHinhsp;
-        TextView TenSp, Giasp,soluong;
+        TextView TenSp, Giasp, soluong;
         CardView cardView;
 
         public ViewHoldel(@NonNull View itemView) {
@@ -80,13 +86,7 @@ public class itemDetailAdapter extends RecyclerView.Adapter<itemDetailAdapter.Vi
             TenSp = itemView.findViewById(R.id.txtTensps);
             Giasp = itemView.findViewById(R.id.txtGiassps);
             cardView = itemView.findViewById(R.id.Cv_spnew);
-            soluong=itemView.findViewById(R.id.txt_viewsl);
+            soluong = itemView.findViewById(R.id.txt_viewsl);
         }
-    }
-    public void adData(List<SptheoDM> sptheoDMS){
-        for (SptheoDM sptheoDM : sptheoDMS){
-            mangsp.add(sptheoDM);
-        }
-notifyDataSetChanged();
     }
 }

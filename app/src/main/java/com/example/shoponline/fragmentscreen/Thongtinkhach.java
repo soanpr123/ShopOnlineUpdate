@@ -1,14 +1,13 @@
 package com.example.shoponline.fragmentscreen;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -43,7 +42,6 @@ public class Thongtinkhach extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
 
         idkhach = bundle.getInt("ID");
-        Toast.makeText(this, " id " + idkhach, Toast.LENGTH_SHORT).show();
         edt_tenKhachhang = findViewById(R.id.edt_namekhachhang);
         edt_diachi = findViewById(R.id.edt_diachi);
         edt_email = findViewById(R.id.edt_email);
@@ -84,11 +82,11 @@ public class Thongtinkhach extends AppCompatActivity {
                                     public void onResponse(String response2) {
                                         String s = response2.trim();
                                         if (s.equalsIgnoreCase("1")) {
+
                                             CheckConection.Show_toast(getApplicationContext(), "thành công");
                                             MainActivity.giohangMDS.clear();
-                                            GiohangFragment trangChinh = new GiohangFragment();
-                                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                                    trangChinh).commit();
+                                            GiohangFragment.EvtntUtis();
+                                            finish();
                                             setTitle("Giỏ Hàng");
                                         } else {
                                             CheckConection.Show_toast(getApplicationContext(), " Lỗi");

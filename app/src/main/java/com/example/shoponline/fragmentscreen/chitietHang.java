@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -34,7 +33,8 @@ public class chitietHang extends Fragment {
     String HinhChiTiet = "";
     String Mota = "";
     int idsanoham = 0;
-int idkhachhang=0;
+    int idkhachhang = 0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,12 +79,12 @@ int idkhachhang=0;
                     MainActivity.giohangMDS.add(new GiohangMD(id, Tenchitiet, Giamoi, HinhChiTiet, soluong));
                 }
                 FragmentManager fragmentManager = getFragmentManager();
-                GiohangFragment giohangFragment=new GiohangFragment();
+                GiohangFragment giohangFragment = new GiohangFragment();
                 Bundle bundle = new Bundle();
-                bundle.putInt("idss",idkhachhang);
+                bundle.putInt("idss", idkhachhang);
                 giohangFragment.setArguments(bundle);
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.fragment_container,giohangFragment);
+                transaction.replace(R.id.fragment_container, giohangFragment);
                 getActivity().setTitle("Giỏ Hàng");
                 transaction.commit();
             }
@@ -101,7 +101,7 @@ int idkhachhang=0;
         Bundle bundle = getArguments();
         id = bundle.getInt("ID");
         Giachitiet = bundle.getInt("Gia");
-        idkhachhang=bundle.getInt("iduss");
+        idkhachhang = bundle.getInt("iduss");
         Tenchitiet = bundle.getString("name");
         HinhChiTiet = bundle.getString("Hinhanh");
         Giachitiet = bundle.getInt("Gia");
@@ -116,7 +116,6 @@ int idkhachhang=0;
                 .placeholder(R.drawable.noimage)
                 .error(R.drawable.eror)
                 .into(imageView);
-        Toast.makeText(getContext(), "id"+idkhachhang, Toast.LENGTH_SHORT).show();
     }
 
 

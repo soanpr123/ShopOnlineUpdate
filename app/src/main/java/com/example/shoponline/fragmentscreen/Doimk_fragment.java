@@ -1,9 +1,6 @@
 package com.example.shoponline.fragmentscreen;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.text.InputType;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -16,6 +13,8 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -46,10 +45,10 @@ public class Doimk_fragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_doimk, container, false);
-        newpassword = (EditText) view.findViewById(R.id.edt_Newpassword);
-        Cofpassword = (EditText) view.findViewById(R.id.edt_Cofpassword);
-        loginButton = (Button) view.findViewById(R.id.submitBtn);
-        show_hide_password = (CheckBox) view
+        newpassword = view.findViewById(R.id.edt_Newpassword);
+        Cofpassword = view.findViewById(R.id.edt_Cofpassword);
+        loginButton = view.findViewById(R.id.submitBtn);
+        show_hide_password = view
                 .findViewById(R.id.show_hide_passwords);
         setListeners();
         Bundle bundle = getArguments();
@@ -121,10 +120,10 @@ public class Doimk_fragment extends Fragment implements View.OnClickListener {
                 @Override
                 public void onResponse(String response) {
                     String s = response.trim();
-                    if (s.equalsIgnoreCase("ok")){
+                    if (s.equalsIgnoreCase("ok")) {
                         new CustomToast().Show_Toast(getActivity(), view,
                                 "Đổi mật khẩu thành công");
-                    }else {
+                    } else {
                         new CustomToast().Show_Toast(getActivity(), view,
                                 "Không thành công");
                     }

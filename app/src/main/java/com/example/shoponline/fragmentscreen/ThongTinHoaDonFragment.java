@@ -2,15 +2,13 @@ package com.example.shoponline.fragmentscreen;
 
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -74,7 +72,6 @@ public class ThongTinHoaDonFragment extends Fragment {
         giasanpham = bundle.getLong("gia");
         soluong = bundle.getInt("soluong");
         hinhanh = bundle.getString("hinhanh");
-        Toast.makeText(getContext(), "idsp : " + idsanpham + "idKhach : " + idkhachhang, Toast.LENGTH_LONG).show();
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Sever.GETHOADONCT, new Response.Listener<String>() {
             @Override

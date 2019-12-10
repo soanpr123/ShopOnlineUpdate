@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.shoponline.interfac.ClickListener;
 import com.example.shoponline.R;
+import com.example.shoponline.interfac.ClickListener;
 import com.example.shoponline.model.SanphamMD;
 import com.squareup.picasso.Picasso;
 
@@ -45,9 +45,9 @@ public class TimkiemAdapter extends RecyclerView.Adapter<TimkiemAdapter.ViewHlde
 
         holder.Giasp.setText("Giá : " + decimalFormat.format(sanphamMD.getGiasp()) + "VND");
 
-        if (sanphamMD.getSoluong()<=0){
+        if (sanphamMD.getSoluong() <= 0) {
             holder.soluong.setText("hết hàng");
-        }else {
+        } else {
             holder.soluong.setText("Còn hàng");
         }
         Picasso.with(context).load(sanphamMD.getHinhanhsp())

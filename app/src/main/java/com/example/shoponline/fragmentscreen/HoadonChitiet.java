@@ -4,18 +4,17 @@ package com.example.shoponline.fragmentscreen;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -28,7 +27,6 @@ import com.example.shoponline.R;
 import com.example.shoponline.adapter.HoadonchitietAdapter;
 import com.example.shoponline.interfac.ClickListener;
 import com.example.shoponline.model.HoadonChitietMD;
-import com.example.shoponline.utils.CheckConection;
 import com.example.shoponline.utils.Sever;
 
 import org.json.JSONArray;
@@ -76,7 +74,7 @@ public class HoadonChitiet extends Fragment implements ClickListener {
         rv_Hoadonct.setAdapter(hoadonchitietAdapter);
         Bundle bundle = getArguments();
         iduser = bundle.getInt("idss");
-        CheckConection.Show_toast(getContext(), "id : " + iduser);
+
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Sever.GETDONHANG, new Response.Listener<String>() {
             @Override
@@ -170,27 +168,27 @@ public class HoadonChitiet extends Fragment implements ClickListener {
                 final HoadonChitietMD hoadonChitietMD = arrayList.get(position);
                 final int masp = hoadonChitietMD.getMasanpham();
 
-                Log.e("masp",masp+"");
+                Log.e("masp", masp + "");
                 RequestQueue requestQueue = Volley.newRequestQueue(getContext());
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, Sever.HUYDON, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         String s = response.trim();
-                        Log.e("resp",response);
-                        if (s.equalsIgnoreCase("ok")){
+                        Log.e("resp", response);
+                        if (s.equalsIgnoreCase("ok")) {
                             arrayList.remove(position);
                             hoadonchitietAdapter.notifyDataSetChanged();
-                            if (arrayList.size()<=0){
+                            if (arrayList.size() <= 0) {
                                 hoadonchitietAdapter.notifyDataSetChanged();
                                 txt_khongsp.setVisibility(View.VISIBLE);
                                 rv_Hoadonct.setVisibility(View.INVISIBLE);
-                            }else {
+                            } else {
                                 hoadonchitietAdapter.notifyDataSetChanged();
                                 txt_khongsp.setVisibility(View.INVISIBLE);
                                 rv_Hoadonct.setVisibility(View.VISIBLE);
                             }
 
-                        }else {
+                        } else {
 
                         }
 
@@ -216,7 +214,7 @@ public class HoadonChitiet extends Fragment implements ClickListener {
         builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-hoadonchitietAdapter.notifyDataSetChanged();
+                hoadonchitietAdapter.notifyDataSetChanged();
 
             }
         });

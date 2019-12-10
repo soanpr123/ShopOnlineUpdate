@@ -2,13 +2,6 @@ package com.example.shoponline.fragmentscreen;
 
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +10,12 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -56,17 +55,18 @@ public class Timkiem extends Fragment implements ClickListener {
     Integer Giasp = 0;
     String Hinhanhsp = "";
     String motasp = "";
-    int soluong=0;
+    int soluong = 0;
     int IDSP = 0;
-    int idusser=0;
+    int idusser = 0;
     private SanphamMD post;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_timkiem, container, false);
         editText = view.findViewById(R.id.edt_tim);
-        Bundle bundle=getArguments();
-        idusser=bundle.getInt("iduser");
+        Bundle bundle = getArguments();
+        idusser = bundle.getInt("iduser");
         Toast.makeText(getContext(), "" + idusser, Toast.LENGTH_SHORT).show();
         recyclerView = view.findViewById(R.id.rv_tim);
         arrayList = new ArrayList<>();
@@ -91,53 +91,64 @@ public class Timkiem extends Fragment implements ClickListener {
             @Override
             public void onClick(View view) {
                 final String name = editText.getText().toString();
-                RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, Sever.TIMKIEM, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.e("res", response);
-                        if (response != null && response.length() > 0) {
-                            try {
-                                JSONArray array = new JSONArray(response);
-                                for (int i = 0; i < array.length(); i++) {
-                                    JSONObject object = array.getJSONObject(i);
-                                    idsp = object.getInt("id");
-                                    tensp = object.getString("tensanpham");
-                                    Giasp = object.getInt("giasp");
-                                    Hinhanhsp = object.getString("hinhanh");
-                                    motasp = object.getString("motasp");
-                                    IDSP = object.getInt("idsanpham");
-                                    soluong = object.getInt("soluong");
-                                    arrayList.add(new SanphamMD(idsp, tensp, Giasp, motasp, Hinhanhsp, IDSP, soluong));
-                                    adapter.notifyDataSetChanged();
-                                }
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        HashMap<String, String> hashMap = new HashMap<>();
-                        hashMap.put("tensp", name);
-                        return hashMap;
-                    }
-                };
-                requestQueue.add(stringRequest);
+                if (arrayList.size() > 0) {
+                    arrayList.clear();
+                    GetDt(name);
+                } else {
+                    GetDt(name);
+                }
             }
         });
 
         return view;
+
     }
 
+    private void GetDt(final String name) {
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Sever.TIMKIEM, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("res", response);
+                if (response != null && response.length() > 0) {
+                    try {
+                        JSONArray array = new JSONArray(response);
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject object = array.getJSONObject(i);
+                            idsp = object.getInt("id");
+                            tensp = object.getString("tensanpham");
+                            Giasp = object.getInt("giasp");
+                            Hinhanhsp = object.getString("hinhanh");
+                            motasp = object.getString("motasp");
+                            IDSP = object.getInt("idsanpham");
+                            soluong = object.getInt("soluong");
+                            arrayList.add(new SanphamMD(idsp, tensp, Giasp, motasp, Hinhanhsp, IDSP, soluong));
+                            adapter.notifyDataSetChanged();
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("tensp", name);
+                return hashMap;
+            }
+        };
+        requestQueue.add(stringRequest);
+
+    }
     @Override
     public void onClick(int position) {
         post = new SanphamMD();

@@ -11,18 +11,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.shoponline.interfac.ClickListener;
 import com.example.shoponline.R;
-import com.example.shoponline.model.danhmucMD;
+import com.example.shoponline.interfac.ClickListener;
 import com.example.shoponline.modelgson.LoaiSp;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.ViewHolder> {
+    ClickListener clickListener;
     private ArrayList<LoaiSp> danhmucMDS;
     private Context context;
-    ClickListener clickListener;
 
     public categoryAdapter(ArrayList<LoaiSp> danhmucMDS, Context context, ClickListener clickListener) {
         this.danhmucMDS = danhmucMDS;

@@ -12,10 +12,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.shoponline.interfac.ClickListener;
-import com.example.shoponline.fragmentscreen.GiohangFragment;
 import com.example.shoponline.R;
 import com.example.shoponline.activity.MainActivity;
+import com.example.shoponline.fragmentscreen.GiohangFragment;
+import com.example.shoponline.interfac.ClickListener;
 import com.example.shoponline.model.GiohangMD;
 import com.squareup.picasso.Picasso;
 
@@ -67,7 +67,7 @@ public class GiohangAdapter extends RecyclerView.Adapter<GiohangAdapter.ViewHlde
         holder.btnPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int slnew = Integer.parseInt(holder.btnValus.getText().toString()) +1;
+                int slnew = Integer.parseInt(holder.btnValus.getText().toString()) + 1;
 
                 int slht = MainActivity.giohangMDS.get(position).getSoluong();
                 long giaht = MainActivity.giohangMDS.get(position).getGiasp();

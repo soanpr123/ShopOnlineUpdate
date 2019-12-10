@@ -11,9 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.shoponline.modelgson.SanphamNew;
-import com.example.shoponline.interfac.ClickListener;
 import com.example.shoponline.R;
+import com.example.shoponline.interfac.ClickListener;
+import com.example.shoponline.modelgson.SanphamNew;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -22,8 +22,7 @@ import java.util.ArrayList;
 public class sanphamnewAdapter extends RecyclerView.Adapter<sanphamnewAdapter.ViewHolder> {
     ArrayList<SanphamNew> sanphamMDS;
     private Context context;
-private ClickListener clickListener;
-
+    private ClickListener clickListener;
 
 
     public sanphamnewAdapter(ArrayList<SanphamNew> sanphamMDS, Context context, ClickListener clickListener) {
@@ -45,10 +44,10 @@ private ClickListener clickListener;
         holder.TenSp.setText(sanphamMD.getTensanpham());
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
 
-        holder.Giasp.setText("Giá : " + decimalFormat.format(sanphamMD.getGiasp())+ "VND");
-        if (sanphamMD.getSoluong()<=0){
+        holder.Giasp.setText("Giá : " + decimalFormat.format(sanphamMD.getGiasp()) + "VND");
+        if (sanphamMD.getSoluong() <= 0) {
             holder.soluong.setText("hết hàng");
-        }else {
+        } else {
             holder.soluong.setText("Còn hàng");
         }
         Picasso.with(context).load(sanphamMD.getHinhanh())
@@ -70,7 +69,7 @@ private ClickListener clickListener;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgHinhsp;
-        TextView TenSp, Giasp,soluong;
+        TextView TenSp, Giasp, soluong;
         CardView cardView;
 
         public ViewHolder(@NonNull View itemView) {
@@ -78,8 +77,8 @@ private ClickListener clickListener;
             imgHinhsp = itemView.findViewById(R.id.imgSanpham);
             TenSp = itemView.findViewById(R.id.txtTensp);
             Giasp = itemView.findViewById(R.id.txtGiassp);
-            cardView=itemView.findViewById(R.id.Cv_spnews);
-            soluong=itemView.findViewById(R.id.txt_viewslnew);
+            cardView = itemView.findViewById(R.id.Cv_spnews);
+            soluong = itemView.findViewById(R.id.txt_viewslnew);
         }
     }
 }

@@ -2,6 +2,13 @@ package com.example.shoponline.fragmentscreen;
 
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.ViewFlipper;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -9,23 +16,14 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.Toast;
-import android.widget.ViewFlipper;
-
+import com.example.shoponline.R;
+import com.example.shoponline.adapter.sanphamnewAdapter;
+import com.example.shoponline.interfac.ClickListener;
+import com.example.shoponline.interfac.LoginView;
 import com.example.shoponline.modelgson.LoaiSp;
 import com.example.shoponline.modelgson.SanphamNew;
 import com.example.shoponline.modelgson.SptheoDM;
 import com.example.shoponline.presenter.DataPresenter;
-import com.example.shoponline.interfac.ClickListener;
-import com.example.shoponline.R;
-import com.example.shoponline.adapter.sanphamnewAdapter;
-import com.example.shoponline.interfac.LoginView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -67,7 +65,6 @@ public class TrangChinh extends Fragment implements ClickListener, LoginView {
         phoness = bundle.getString("phoness");
         emailss = bundle.getString("emailss");
         locationss = bundle.getString("loationss");
-        Toast.makeText(getContext(), "id : " + id1s + "\n" + "name" + usernamess + "\n" + "phone" + phoness + "\n" + "email" + emailss + "\n" + "vị trí " + locationss, Toast.LENGTH_LONG).show();
         viewFlipper = view.findViewById(R.id.vfber);
         rv_spNew = view.findViewById(R.id.rv_spnew);
         arrSanpham = new ArrayList<>();
@@ -94,100 +91,6 @@ public class TrangChinh extends Fragment implements ClickListener, LoginView {
         Animation animation_out = AnimationUtils.loadAnimation(getContext(), R.anim.slide_out);
         viewFlipper.setInAnimation(animation_slie);
         viewFlipper.setOutAnimation(animation_out);
-//        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-//        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Sever.GETSANPHAMNEW, new Response.Listener<JSONArray>() {
-//            @Override
-//            public void onResponse(JSONArray response) {
-//                if (response != null) {
-//
-//                    for (int i = 0; i < response.length(); i++) {
-//                        try {
-//                            JSONObject object = response.getJSONObject(i);
-//                            ID = object.getInt("id");
-//                            tensp = object.getString("tensanpham");
-//                            Giasp = object.getInt("giasp");
-//                            Hinhanhsp = object.getString("hinhanh");
-//                            motasp = object.getString("motasp");
-//                            IDSP = object.getInt("idsanpham");
-//                            soluong=object.getInt("soluong");
-//                            arrSanpham.add(new SanphamMD(ID, tensp, Giasp, motasp, Hinhanhsp, IDSP,soluong));
-//                            adapter.notifyDataSetChanged();
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                    }
-//
-//
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                CheckConection.Show_toast(getContext(), error.toString());
-//                Log.e("eror", error.toString());
-//            }
-//        });
-//        requestQueue.add(jsonArrayRequest);
-//        DataClient dataClient= APIUtils.DataPresenter();
-//        Call<List<SanphamNew>> listCall =dataClient.getAllSanpham();
-//
-//        listCall.enqueue(new Callback<List<SanphamNew>>() {
-//            @Override
-//            public void onResponse(Call<List<SanphamNew>> call, Response<List<SanphamNew>> response) {
-//                if (response!=null){
-//                    ArrayList<SanphamNew>sanphamNews= (ArrayList<SanphamNew>) response.body();
-//                    for (int i=0;i<sanphamNews.size();i++){
-//                        ID = sanphamNews.get(i).getId();
-//                        tensp = sanphamNews.get(i).getTensanpham();
-//                        Giasp = sanphamNews.get(i).getGiasp();
-//                        Hinhanhsp = sanphamNews.get(i).getHinhanh();
-//                        motasp = sanphamNews.get(i).getMotasp();
-//                        IDSP = sanphamNews.get(i).getIdsanpham();
-//                        soluong=sanphamNews.get(i).getSoluong();
-//                        arrSanpham.add(new SanphamMD(ID, tensp, Giasp, motasp, Hinhanhsp, IDSP,soluong));
-//                        adapter.notifyDataSetChanged();
-//
-//
-//                    }
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<SanphamNew>> call, Throwable t) {
-//
-//            }
-//        });
-//        DataClient dataClient = APIUtils.dataClient();
-//        Call<List<SanphamNew>> listCall = dataClient.getAllSanpham();
-//
-//        listCall.enqueue(new Callback<List<SanphamNew>>() {
-//            @Override
-//            public void onResponse(Call<List<SanphamNew>> call, Response<List<SanphamNew>> response) {
-//
-//                if (response!=null) {
-//                    sanphamNews = (ArrayList<SanphamNew>) response.body();
-//                    for (int i = 0; i <sanphamNews.size(); i++) {
-//                        ID = sanphamNews.get(i).getId();
-//                            tensp = sanphamNews.get(i).getTensanpham();
-//                            Giasp = sanphamNews.get(i).getGiasp();
-//                            Hinhanhsp = sanphamNews.get(i).getHinhanh();
-//                            motasp = sanphamNews.get(i).getMotasp();
-//                            IDSP = sanphamNews.get(i).getIdsanpham();
-//                            soluong=sanphamNews.get(i).getSoluong();
-//                            arrSanpham.add(new SanphamNew(ID,tensp,Giasp,Hinhanhsp,motasp,IDSP,soluong));
-//                            adapter.notifyDataSetChanged();
-//                    }
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<SanphamNew>> call, Throwable t) {
-//
-//            }
-//        });
         data.GetspNew();
         return view;
     }
@@ -248,8 +151,8 @@ public class TrangChinh extends Fragment implements ClickListener, LoginView {
     @Override
     public void Sucessfull(List<SanphamNew> arrSanphams) {
 
-            arrSanpham.addAll(arrSanphams);
-adapter.notifyDataSetChanged();
+        arrSanpham.addAll(arrSanphams);
+        adapter.notifyDataSetChanged();
     }
 
     @Override

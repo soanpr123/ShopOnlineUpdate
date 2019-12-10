@@ -1,17 +1,18 @@
 package com.example.shoponline.fragmentscreen;
 
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-
-import android.os.Bundle;
-import android.view.View;
 
 import com.example.shoponline.R;
 import com.example.shoponline.Utils;
 
 public class Loginmain extends AppCompatActivity {
     private static FragmentManager fragmentManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
